@@ -1,1 +1,756 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechSpec Hub — Smartphone Analytics & Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <span class="logo-icon">⚡</span> TechSpec<span class="highlight">Hub</span>
+      </a>
+      <div class="nav-links">
+        <a href="#catalog" class="nav-item active">Katalog</a>
+        <a href="#compare" class="nav-item">Solishtirish</a>
+        <a href="#about" class="nav-item">Tizim haqida</a>
+      </div>
+      <button class="btn-theme" id="themeToggle" aria-label="Theme Switcher">🌙</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <span class="badge">Real-World Hardware Specs 2026</span>
+      <h1>Zamonaviy Smartfonlar Analitikasi va Xarakteristikalari</h1>
+      <p>Protsessor yadrolari, kamera sensorlari, batareya va displey gersirovkasini eng mayda detallarigacha chuqur o'rganing.</p>
+      
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Real Parametrlar</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">4K+</span>
+          <span class="stat-label">Displey Analizi</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">4nm/3nm</span>
+          <span class="stat-label">Chipset Arxitekturasi</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content / Catalog -->
+  <main class="main-container" id="catalog">
+    
+    <!-- Controls Section -->
+    <section class="controls-section">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Model, chipset yoki kamera boyicha qidiring...">
+      </div>
+
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">Barchasi</button>
+        <button class="filter-btn" data-filter="Apple">Apple</button>
+        <button class="filter-btn" data-filter="Samsung">Samsung</button>
+        <button class="filter-btn" data-filter="Xiaomi">Xiaomi</button>
+        <button class="filter-btn" data-filter="Google">Google</button>
+      </div>
+    </section>
+
+    <!-- Cards Grid -->
+    <section class="phones-grid" id="phonesGrid">
+      <!-- JavaScript dynamic render -->
+    </section>
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-body" id="modalBody">
+        <!-- JavaScript dynamic detail content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p>&copy; 2026 TechSpec Hub. Ochiq manbali professional xarakteristikalar bazasi.</p>
+      <p class="sub-footer">GitHub Repository uchun maxsus ishlab chiqilgan minimalist interfeys.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+:root {
+  --bg-main: #090a0f;
+  --bg-card: #12141c;
+  --bg-card-hover: #1a1d29;
+  --border: #232736;
+  --border-focus: #3b82f6;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.25);
+  --success: #10b981;
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(9, 10, 15, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 2rem;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo .highlight {
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.nav-item:hover, .nav-item.active {
+  color: var(--text-primary);
+}
+
+.btn-theme {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-theme:hover {
+  border-color: var(--accent);
+}
+
+/* Hero Section */
+.hero {
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+  background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.hero p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.2rem;
+  border-radius: var(--radius-md);
+}
+
+.stat-num {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Controls Section */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.controls-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .controls-section {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  max-width: 450px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+.search-box input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.filter-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+/* Grid & Cards */
+.phones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.8rem;
+}
+
+.phone-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.phone-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.phone-card:hover {
+  transform: translateY(-5px);
+  background: var(--bg-card-hover);
+  border-color: #2e3448;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.phone-card:hover::before {
+  opacity: 1;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.phone-brand {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.phone-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+}
+
+.phone-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--success);
+}
+
+.specs-list {
+  list-style: none;
+  margin: 1.2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.4rem;
+}
+
+.spec-label {
+  color: var(--text-secondary);
+}
+
+.spec-value {
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.btn-detail {
+  width: 100%;
+  padding: 0.8rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 1rem;
+}
+
+.btn-detail:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  width: 90%;
+  max-width: 650px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  position: relative;
+  transform: scale(0.95);
+  transition: var(--transition);
+}
+
+.modal-overlay.active .modal-card {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: var(--text-primary);
+}
+
+.detail-section {
+  margin-top: 1.5rem;
+}
+
+.detail-section h3 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  margin-top: 5rem;
+  text-align: center;
+  background: var(--bg-card);
+}
+
+.sub-footer {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Animation Utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade {
+  animation: fadeIn 0.4s ease forwards;
+}/**
+ * TechSpec Hub — Real-World Mobile Devices Database & Application Logic
+ */
+
+// 1. Real Database (No fantasy data)
+const phonesData = [
+  {
+    id: "iphone-15-pro-max",
+    brand: "Apple",
+    model: "iPhone 15 Pro Max",
+    price: "$1,199",
+    display: "6.7\" LTPO Super Retina XDR OLED, 120Hz, HDR10, Dolby Vision, 2000 nits",
+    chipset: "Apple A17 Pro (3 nm)",
+    cpu: "Hexa-core (2x3.78 GHz + 4x2.11 GHz)",
+    gpu: "Apple GPU (6-core graphics)",
+    ram: "8 GB LPDDR5X",
+    storage: "256GB / 512GB / 1TB NVMe",
+    camera: "48 MP (f/1.8, OIS) + 12 MP (Periscope 5x optical) + 12 MP (Ultrawide 120°)",
+    selfie: "12 MP (f/1.9, PDAF, OIS)",
+    battery: "4422 mAh, 25W wired, 15W MagSafe wireless",
+    os: "iOS 17 (Upgradable)"
+  },
+  {
+    id: "samsung-s24-ultra",
+    brand: "Samsung",
+    model: "Galaxy S24 Ultra",
+    price: "$1,299",
+    display: "6.8\" Dynamic LTPO AMOLED 2X, 120Hz, HDR10+, 2600 nits, Gorilla Armor",
+    chipset: "Qualcomm Snapdragon 8 Gen 3 for Galaxy (4 nm)",
+    cpu: "8-core (1x3.39 GHz Cortex-X4 + 5x3.1 GHz + 2x2.2 GHz)",
+    gpu: "Adreno 750 (1 GHz)",
+    ram: "12 GB LPDDR5X",
+    storage: "256GB / 512GB / 1TB UFS 4.0",
+    camera: "200 MP (f/1.7, OIS) + 50 MP (Periscope 5x) + 10 MP (Telephoto 3x) + 12 MP (Ultrawide)",
+    selfie: "12 MP (f/2.2, Dual Pixel PDAF)",
+    battery: "5000 mAh, 45W wired, 15W wireless",
+    os: "Android 14, One UI 6.1"
+  },
+  {
+    id: "xiaomi-14-ultra",
+    brand: "Xiaomi",
+    model: "Xiaomi 14 Ultra",
+    price: "$1,099",
+    display: "6.73\" LTPO AMOLED, 68B colors, 120Hz, Dolby Vision, HDR10+, 3000 nits",
+    chipset: "Qualcomm Snapdragon 8 Gen 3 (4 nm)",
+    cpu: "8-core (1x3.3 GHz Cortex-X4 + 3x3.2 GHz + 2x3.0 GHz + 2x2.3 GHz)",
+    gpu: "Adreno 750",
+    ram: "12 GB / 16 GB LPDDR5X",
+    storage: "256GB / 512GB / 1TB UFS 4.0",
+    camera: "50 MP (1-inch LYT-900, variable aperture f/1.6-f/4.0, OIS) + 50 MP (3.2x) + 50 MP (5x) + 50 MP",
+    selfie: "32 MP (f/2.0)",
+    battery: "5000 mAh, 90W wired, 80W wireless",
+    os: "Android 14, HyperOS"
+  },
+  {
+    id: "google-pixel-8-pro",
+    brand: "Google",
+    model: "Pixel 8 Pro",
+    price: "$999",
+    display: "6.7\" LTPO OLED, 120Hz, HDR10+, 2400 nits, Gorilla Glass Victus 2",
+    chipset: "Google Tensor G3 (4 nm)",
+    cpu: "Nona-core (1x3.0 GHz Cortex-X3 + 4x2.45 GHz + 4x2.15 GHz)",
+    gpu: "Immortalis-G715 MC10",
+    ram: "12 GB LPDDR5X",
+    storage: "128GB / 256GB / 512GB / 1TB UFS 3.1",
+    camera: "50 MP (f/1.7, OIS) + 48 MP (5x Telephoto) + 48 MP (Ultrawide)",
+    selfie: "10.5 MP (f/2.2, PDAF)",
+    battery: "5050 mAh, 30W wired, 23W wireless",
+    os: "Android 14"
+  }
+];
+
+// 2. DOM Elements
+const phonesGrid = document.getElementById('phonesGrid');
+const searchInput = document.getElementById('searchInput');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalBody = document.getElementById('modalBody');
+const modalClose = document.getElementById('modalClose');
+
+let activeFilter = 'all';
+let searchQuery = '';
+
+// 3. Render Functions
+function renderPhones() {
+  phonesGrid.innerHTML = '';
+
+  const filtered = phonesData.filter(phone => {
+    const matchesFilter = activeFilter === 'all' || phone.brand === activeFilter;
+    const matchesSearch = phone.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          phone.chipset.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  if (filtered.length === 0) {
+    phonesGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 3rem 0;">Hech qanday ma'lumot topilmadi.</p>`;
+    return;
+  }
+
+  filtered.forEach((phone, index) => {
+    const card = document.createElement('div');
+    card.className = 'phone-card animate-fade';
+    card.style.animationDelay = `${index * 0.05}s`;
+
+    card.innerHTML = `
+      <div>
+        <div class="card-header">
+          <div>
+            <span class="phone-brand">${phone.brand}</span>
+            <h3 class="phone-title">${phone.model}</h3>
+          </div>
+          <span class="phone-price">${phone.price}</span>
+        </div>
+
+        <ul class="specs-list">
+          <li class="spec-item">
+            <span class="spec-label">Protsessor</span>
+            <span class="spec-value">${phone.chipset.split('(')[0]}</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Displey</span>
+            <span class="spec-value">${phone.display.split(',')[1] || '120Hz'}</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Kamera</span>
+            <span class="spec-value">${phone.camera.split('+')[0]}</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Batareya</span>
+            <span class="spec-value">${phone.battery.split(',')[0]}</span>
+          </li>
+        </ul>
+      </div>
+
+      <button class="btn-detail" onclick="openModal('${phone.id}')">To'liq Xarakteristika</button>
+    `;
+
+    phonesGrid.appendChild(card);
+  });
+}
+
+// 4. Modal Functions
+window.openModal = function(phoneId) {
+  const phone = phonesData.find(p => p.id === phoneId);
+  if (!phone) return;
+
+  modalBody.innerHTML = `
+    <span class="phone-brand">${phone.brand}</span>
+    <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">${phone.model}</h2>
+    <p style="color: var(--success); font-family: 'JetBrains Mono'; font-weight: 600; margin-bottom: 1.5rem;">Boshlang'ich narxi: ${phone.price}</p>
+
+    <div class="detail-section">
+      <h3>📱 Displey & Korpus</h3>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">${phone.display}</p>
+    </div>
+
+    <div class="detail-section">
+      <h3>⚙️ Unumdorlik & Chipset</h3>
+      <p><strong>Chipset:</strong> ${phone.chipset}</p>
+      <p><strong>CPU:</strong> ${phone.cpu}</p>
+      <p><strong>GPU:</strong> ${phone.gpu}</p>
+      <p><strong>Xotira turlari:</strong> ${phone.ram} | ${phone.storage}</p>
+    </div>
+
+    <div class="detail-section">
+      <h3>📸 Kamera Tizimi</h3>
+      <p><strong>Asosiy:</strong> ${phone.camera}</p>
+      <p><strong>Frontal:</strong> ${phone.selfie}</p>
+    </div>
+
+    <div class="detail-section">
+      <h3>🔋 Batareya & Dastur</h3>
+      <p><strong>Akkumulyator:</strong> ${phone.battery}</p>
+      <p><strong>Operatsion Tizim:</strong> ${phone.os}</p>
+    </div>
+  `;
+
+  modalOverlay.classList.add('active');
+};
+
+function closeModal() {
+  modalOverlay.classList.remove('active');
+}
+
+// 5. Event Listeners
+searchInput.addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  renderPhones();
+});
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderPhones();
+  });
+});
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// Initial Render
+renderPhones();
 
